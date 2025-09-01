@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Make Quotes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    .container { max-width: 600px; padding: 20px; }
+    h1 { font-size: 3rem; margin-bottom: 10px; }
+    p { font-size: 1.2rem; margin-bottom: 20px; }
+    .btn {
+      display: inline-block;
+      background: white;
+      color: #764ba2;
+      padding: 12px 24px;
+      border-radius: 25px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      border: none;
+    }
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0px 8px 20px rgba(0,0,0,0.2);
+    }
+    form { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+    input, textarea {
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      font-size: 1rem;
+      outline: none;
+    }
+    textarea { resize: none; height: 100px; }
+    .quote-card {
+      margin-top: 20px;
+      padding: 20px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 15px;
+      font-size: 1.2rem;
+      line-height: 1.5;
+      animation: pop 0.5s ease;
+    }
+    .hidden { display: none; }
+    .back-btn {
+      display: inline-block;
+      margin-top: 20px;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .back-btn:hover { text-decoration: underline; }
+    /* Анимации */
+    .fade-in { opacity: 0; transform: translateY(20px); animation: fadeIn 1s forwards; }
+    .delay { animation-delay: 0.3s; }
+    .delay2 { animation-delay: 0.6s; }
+    .delay3 { animation-delay: 0.9s; }
+    @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+    @keyframes pop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="fade-in">Make Quotes</h1>
+    <p class="fade-in delay">Создавай свои уникальные цитаты</p>
+    
+    <div id="homePage" class="fade-in delay2">
+      <button class="btn" onclick="showCreatePage()">Создать цитату</button>
+    </div>
+
+    <div id="createPage" class="hidden fade-in">
+      <form id="quoteForm">
+        <input type="text" id="author" placeholder="Автор" required>
+        <textarea id="quote" placeholder="Твоя цитата..." required></textarea>
+        <button type="submit" class="btn">Показать цитату</button>
+      </form>
+      <div id="quoteCard" class="quote-card hidden"></div>
+      <div>
+        <a class="back-btn" onclick="showHomePage()">← На главную</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const homePage = document.getElementById('homePage');
+    const createPage = document.getElementById('createPage');
+    const form = document.getElementById('quoteForm');
+    const card = document.getElementById('quoteCard');
+
+    function showCreatePage() {
+      homePage.classList.add('hidden');
+      createPage.classList.remove('hidden');
+    }
+    function showHomePage() {
+      createPage.classList.add('hidden');
+      homePage.classList.remove('hidden');
+      card.classList.add('hidden');
+      form.reset();
+    }
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const author = document.getElementById('author').value.trim();
+      const quote = document.getElementById('quote').value.trim();
+      if (quote && author) {
+        card.innerHTML = <p>"${quote}"</p><h3>— ${author}</h3>;
+        card.classList.remove('hidden');
+      }
+    });
+  </script>
+</body>
+</html>
